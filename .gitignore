@@ -1,0 +1,11 @@
+# local .env file
+.env
+
+# node_modules
+node_modules
+
+# local .netlify folder
+.netlify
+
+# logs
+logs

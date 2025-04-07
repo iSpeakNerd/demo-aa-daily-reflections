@@ -1,0 +1,32 @@
+[build]
+  command = "pnpm install"
+  functions = "functions"
+
+[functions]
+  directory = "functions"
+  node_bundler = "esbuild"
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+
+[build.environment]
+  NPM_FLAGS = "--version"
+  NODE_VERSION = "18"
+
+[build.processing]
+  skip_processing = false
+
+# scheduled Daily Reflections posting to Discord. config - 7:17am PST as UTC for posting
+[functions."scheduled-reflection"]
+  schedule = "17 15 * * *"
+
+# scheduled ping configuration
+[functions."scheduled-ping"]
+  schedule = "*/15 * * * *"
+
+[[headers]]
+  for = "/.netlify/functions/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
