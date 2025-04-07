@@ -4,7 +4,7 @@ import {
   createDiscordEmbed,
   type DiscordEmbed,
 } from '../_types/discord.types.ts';
-import { parseApiForDB, writeDailyReflectionToDb } from '../utils/supabase.ts';
+import { parseApiForDB, db } from '../utils/supabase.ts';
 import { formatDate } from './strings.ts';
 import { wrapErrorWithContext, ErrorType } from './errors.ts';
 import { buildBbMdUrl } from './bb-url.ts';
@@ -165,16 +165,14 @@ const getFormattedReflection = async (date?: string): Promise<DiscordEmbed> => {
 const sendToSupabase = async (reflection: typeof exampleApiResponse) => {
   try {
     const parsedData = await parseApiForDB(reflection);
-    const result = await writeDailyReflectionToDb(parsedData);
+    const result = await db.CRUD.create(parsedData);
     return result;
   } catch (error) {
-    // console.error('Error in sendToSupabase:', error);
     throw wrapErrorWithContext(error, ErrorType.NETWORK);
   }
 };
 
 // Example API response
-// https://dailyreflections.blob.core.windows.net/public/1014.json
 const exampleApiResponse = {
   Date: '14 OCTOBER',
   Title: 'A PROGRAM FOR LIVING',

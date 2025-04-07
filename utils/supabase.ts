@@ -1,7 +1,7 @@
 //! Database utils, parsing for and updating + reading DB
 
 import { createClient, QueryData, QueryError } from '@supabase/supabase-js';
-import { Tables, TablesInsert } from '../_types/db.types.ts';
+import { Tables, TablesInsert, TablesUpdate } from '../_types/db.types.ts';
 import {
   exampleApiResponse,
   fetchDailyReflection,
@@ -9,8 +9,9 @@ import {
 import { removeLineBreaks } from './strings.ts';
 import dotenv from 'dotenv';
 import { wrapErrorWithContext, ErrorType } from './errors.ts';
+import { formatMonthDay, makeDbDateString } from './supabase-helpers.ts';
 
-export { parseApiForDB, writeDailyReflectionToDb };
+export { parseApiForDB, db };
 
 dotenv.config();
 
@@ -27,34 +28,6 @@ if (!supabaseUrl || !supabaseServiceRoleKey) {
 const supabaseAdmin = createClient(supabaseUrl, supabaseServiceRoleKey);
 
 export { supabaseAdmin };
-
-/**
- * Writes the daily reflection to the supabase DB
- * @param reflection - The daily reflection prepared as db insert object
- * @returns The updated daily reflection from supabase DB
- */
-const writeDailyReflectionToDb = async (
-  reflection: TablesInsert<'AA_Daily_Reflections'>
-) => {
-  try {
-    const { data, error } = await supabaseAdmin
-      .from('AA_Daily_Reflections')
-      .upsert(reflection, {
-        onConflict: 'date_string',
-        ignoreDuplicates: true,
-      })
-      .select()
-      .maybeSingle();
-    if (error) {
-      //no throw on write error
-      wrapErrorWithContext(error, ErrorType.DATABASE);
-    }
-    // console.log('wrote to db', data);
-    return data;
-  } catch (error) {
-    wrapErrorWithContext(error);
-  }
-};
 
 /**
  * Parses the API response for the supabase DB
@@ -83,47 +56,110 @@ const parseApiForDB = async (
 };
 
 /**
- * Extracts and formats the month and day from the date string
- * @param dateString - The date string to parse // '12 JANUARY'
- * @returns The formatted month-day string `MM-DD` // '01-12'
+ * Writes the daily reflection to the supabase DB
+ * @param reflection - The daily reflection prepared as db insert object
+ * @returns The updated daily reflection from supabase DB
  */
-const formatMonthDay = async (dateString: string): Promise<string> => {
+const createDailyReflectionInDb = async (
+  reflection: TablesInsert<'AA_Daily_Reflections'>
+) => {
   try {
-    const monthMap: { [key: string]: string } = {
-      JANUARY: '01',
-      FEBRUARY: '02',
-      MARCH: '03',
-      APRIL: '04',
-      MAY: '05',
-      JUNE: '06',
-      JULY: '07',
-      AUGUST: '08',
-      SEPTEMBER: '09',
-      OCTOBER: '10',
-      NOVEMBER: '11',
-      DECEMBER: '12',
-    };
-
-    const monthMatch = dateString.match(/\d{1,2} (\w+)/);
-    const dayMatch = dateString.match(/(\d{1,2}) \w+/);
-
-    if (!monthMatch) {
-      throw wrapErrorWithContext(
-        'Error: unable to match month in dateString',
-        ErrorType.VALIDATION
-      );
+    const { data, error } = await supabaseAdmin
+      .from('AA_Daily_Reflections')
+      .upsert(reflection, {
+        onConflict: 'date_string',
+        ignoreDuplicates: true,
+      })
+      .select()
+      .maybeSingle();
+    if (error) {
+      //no throw on write error
+      wrapErrorWithContext(error, ErrorType.DATABASE);
     }
-    if (!dayMatch) {
-      throw wrapErrorWithContext(
-        'Error: unable to match day in dateString',
-        ErrorType.VALIDATION
-      );
+    // console.log('wrote to db', data);
+    return data;
+  } catch (error) {
+    wrapErrorWithContext(error);
+  }
+};
+
+const readDailyReflectionFromDb = async (
+  dateString: string
+): Promise<Tables<'AA_Daily_Reflections'>> => {
+  try {
+    const { data, error } = await supabaseAdmin
+      .from('AA_Daily_Reflections')
+      .select()
+      .eq('date_string', dateString)
+      .single();
+    if (error) {
+      wrapErrorWithContext(error, ErrorType.DATABASE);
     }
 
-    const month = monthMap[monthMatch[1].toUpperCase()];
-    const day = dayMatch[1].padStart(2, '0');
-    return `${month}-${day}`;
+    return data;
   } catch (err) {
     throw wrapErrorWithContext(err);
   }
 };
+
+/**
+ * Updates the daily reflection in the supabase DB
+ * @param reflection - The daily reflection prepared as db update object
+ * @returns The updated daily reflection from supabase DB
+ */
+const updateDailyReflectionInDb = async (
+  reflection: TablesUpdate<'AA_Daily_Reflections'>
+) => {
+  try {
+    const { data, error } = await supabaseAdmin
+      .from('AA_Daily_Reflections')
+      .update(reflection)
+      .eq('date_string', reflection.date_string) // Using date_string as the unique identifier
+      .select()
+      .maybeSingle();
+
+    if (error) {
+      wrapErrorWithContext(error, ErrorType.DATABASE);
+    }
+
+    return data;
+  } catch (error) {
+    wrapErrorWithContext(error);
+  }
+};
+
+/**
+ * Deletes the daily reflection from the supabase DB
+ * @param dateString - The unique identifier for the reflection to delete
+ * @returns The deleted reflection data from supabase DB
+ */
+const deleteDailyReflectionFromDb = async (dateString: string) => {
+  try {
+    const { data, error } = await supabaseAdmin
+      .from('AA_Daily_Reflections')
+      .delete()
+      .eq('date_string', dateString) // Using date_string as the unique identifier
+      .select()
+      .maybeSingle();
+
+    if (error) {
+      wrapErrorWithContext(error, ErrorType.DATABASE);
+    }
+
+    return data;
+  } catch (error) {
+    wrapErrorWithContext(error);
+  }
+};
+
+// ####################################
+//  CRUD
+const db = {
+  CRUD: {
+    create: createDailyReflectionInDb,
+    read: readDailyReflectionFromDb,
+    update: updateDailyReflectionInDb,
+    delete: deleteDailyReflectionFromDb,
+  },
+};
+// ####################################
