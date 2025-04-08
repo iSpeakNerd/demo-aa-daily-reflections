@@ -152,11 +152,11 @@ const makeDbDateString = (date: Date | string): string => {
       );
     }
     const day = parsedDate.getDate().toString();
-    const month = getMonthName(
+    const monthName = getMonthName(
       (parsedDate.getMonth() + 1).toString()
     ).toUpperCase(); // DECEMBER
 
-    return `${day} ${month}`; // '07 JANUARY'
+    return `${day} ${monthName}`; // '07 JANUARY'
   } catch (err) {
     throw wrapErrorWithContext(err);
   }
