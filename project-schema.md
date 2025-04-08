@@ -110,7 +110,7 @@ AA Daily Reflections is a serverless application built using Netlify Functions, 
 
 - Reduced operational complexity
 - Cost-effective scaling
-- Easy integration with version control
+- Integration with version control
 - Automatic deployments
 
 ### 2. Supabase as Database
@@ -168,7 +168,7 @@ AA Daily Reflections is a serverless application built using Netlify Functions, 
 
 #### 3. Testing Approach
 
-- **Invocation**: Tests can be invoked using the Netlify CLI, allowing for easy execution of serverless functions in a local or deployed environment. This simulates real-world usage and ensures that all components interact correctly.
+- **Invocation**: Tests can be invoked using the Netlify CLI, allowing for execution of serverless functions in a local or deployed environment. This simulates real-world usage and ensures that all components interact correctly.
 - **Error Handling**: Each test function includes error handling to capture and log any issues that arise during execution, providing insights into failures and facilitating debugging.
 
 #### 4. Benefits of Using Netlify Functions for Testing
@@ -188,10 +188,10 @@ AA Daily Reflections is a serverless application built using Netlify Functions, 
 - **Addition**: A new helper function `getUrlForDate` has been introduced in `utils/discord-reflections.ts`. This function accepts a parameter of type `string | Date` and constructs the URL for the reflection based on the provided date.
 - **Reasoning**: This refactor improves code modularity by separating the URL construction logic from the main fetching logic, ensuring that both `Date` objects and date strings can be handled appropriately without internal conversion.
 
-#### 3. Error Handling for Invalid Dates
+#### 3. Error Handling for Date Formats
 
-- **Modification**: The `getUrlForDate` function now includes error handling for invalid date inputs, ensuring that only valid dates are processed.
-- **Reasoning**: This enhances the robustness of the application by preventing potential runtime errors due to invalid date formats.
+- **Modification**: The `getUrlForDate` function now includes error handling for date inputs, ensuring that only valid dates are processed.
+- **Reasoning**: This enhances the robustness of the application by preventing potential runtime errors due to misformatted dates.
 
 ## Code Conventions
 
