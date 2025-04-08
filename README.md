@@ -123,10 +123,10 @@ To run this project locally, follow these steps:
 
 ## Testing
 
-The project includes a suite of unit tests located in the `/tests` directory. These tests cover various aspects of the application, including database operations and Discord interactions. To run the tests, use the following command:
+The project includes a suite of unit tests located in the `/tests` directory. These tests cover various aspects of the application, including database operations and Discord interactions. To run a test file, use the following command:
 
 ```bash
-pnpm test
+pnpm ts PATH/FILENAME.ts
 ```
 
 To do integration testing, run the dev server `pnpm dev` and then activate the API function with `pnpm netlify functions:invoke reflection` as described above.
