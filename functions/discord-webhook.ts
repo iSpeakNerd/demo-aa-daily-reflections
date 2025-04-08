@@ -1,5 +1,5 @@
 import { verifyKey } from 'discord-interactions';
-import { getFormattedReflectionFromDb } from '../utils/discord-reflections.ts';
+import { getFormattedReflection } from '../utils/external-reflections.ts';
 import {
   type DiscordEmbed,
   type DiscordCommand,
@@ -172,7 +172,7 @@ async function processCommand(
 
     case 'reflections':
       try {
-        const formattedReflection = await getFormattedReflectionFromDb();
+        const formattedReflection = await getFormattedReflection();
         if (formattedReflection) {
           return { embeds: [formattedReflection] };
         } else {

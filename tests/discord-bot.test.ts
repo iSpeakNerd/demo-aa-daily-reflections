@@ -2,7 +2,7 @@ import {
   handler,
   postToDiscordWebhooks,
 } from '../functions/discord-webhook.ts';
-import { getFormattedReflection } from '../utils/discord-reflections.ts';
+import { getFormattedReflection } from '../utils/external-reflections.ts';
 import { type DiscordEmbed } from '../_types/discord.types.ts';
 import dotenv from 'dotenv';
 import { wrapErrorWithContext, ErrorType } from '../utils/errors.ts';
@@ -31,7 +31,7 @@ async function testReflectionsCommand() {
       console.log('Title:', reflection.title);
       console.log(
         'Description preview:',
-        reflection.description?.slice(0, 100) + '...',
+        reflection.description?.slice(0, 100) + '...'
       );
     } else {
       console.log('⚠️ getFormattedReflection returned null');
