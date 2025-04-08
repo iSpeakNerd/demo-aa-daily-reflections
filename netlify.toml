@@ -19,7 +19,7 @@
   skip_processing = false
 
 # scheduled Daily Reflections posting to Discord. config - 7:17am PST as UTC for posting
-[functions."scheduled-reflection"]
+[functions."reflection"]
   schedule = "17 15 * * *"
 
 # scheduled ping configuration
