@@ -52,20 +52,16 @@ Here's a guide to [creating a Discord bot](https://discordjs.guide/preparations/
 
 The bot will output to the list of `DISCORD_WEBHOOK_URL_1`, `DISCORD_WEBHOOK_URL_2`, etc. from the `.env` file. You must have a valid Discord webhook url to see the output. [Create your own webhook](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks) and save the url.
 
-    1. DISCORD_WEBHOOK_URL_1 = ''
+    1. DISCORD_WEBHOOK_URL_1 = 'https://discord.com/api/webhooks/1359294999816179984/40Nc_KfXUDRlUNg3gbt4p6Ir6na2E8Onq2sYdSbIMIeQNr93Ej6Sd927Ba3wIDoPwxqf'
+    2. DISCORD_WEBHOOK_URL_2 = ''
+
+Webhook 1 outputs into my test server
 
 #### Supabase
 
-Create your own Supabase project and [obtain the PostgREST API URL and Keys](https://supabase.com/docs/guides/api#api-url-and-keys).
+Here is the [Supabase PostgREST API URL](https://supabase.com/docs/guides/api) for read access to the project.
 
-    1. SUPABASE_URL = ''
-    2. SUPABASE_SERVICE_ROLE_KEY = ''
-
-#### Netlify
-
-Follow Netlify's guide for [deploying a project from GitHub](https://docs.netlify.com/welcome/add-new-site/#import-from-an-existing-repository). Get the site URL from your project settings after deployment.
-
-      1. NETLIFY_APP_URL = ''
+    1. SUPABASE_URL = 'https://hqkqajujwqdmzebklwqo.supabase.co'
 
 ### Running the Repository
 
@@ -87,13 +83,14 @@ To run this project locally, follow these steps:
 3. **Set Up Environment Variables**:
    Your `.env` file should have all of the following secrets:
 
-   1. DISCORD_BOT_TOKEN = ''
-   2. DISCORD_PUBLIC_KEY = ''
-   3. DISCORD_CLIENT_ID = ''
-   4. SUPABASE_URL = ''
-   5. SUPABASE_SERVICE_ROLE_KEY = ''
-   6. NETLIFY_APP_URL = ''
-   7. DISCORD_WEBHOOK_URL_1 = ''
+   ```
+   DISCORD_BOT_TOKEN = ''
+   DISCORD_PUBLIC_KEY = ''
+   DISCORD_CLIENT_ID = ''
+   DISCORD_WEBHOOK_URL_1 = 'https://discord.com/api/webhooks/1359294999816179984/40Nc_KfXUDRlUNg3gbt4p6Ir6na2E8Onq2sYdSbIMIeQNr93Ej6Sd927Ba3wIDoPwxqf'
+   DISCORD_WEBHOOK_URL_2 = ''
+   SUPABASE_URL = 'https://hqkqajujwqdmzebklwqo.supabase.co'
+   ```
 
    Follow the [steps above](#secrets-setup) if you do not yet have values for all the secrets.
 
@@ -119,9 +116,19 @@ To run this project locally, follow these steps:
 
    b. **Invoked mode:** In the Discord server with the bot, use the command `/reflections` to fetch and post today's AA Daily Reflection.
 
-   I have deployed a demo server that [you may join](https://discord.gg/scExqC4yzB) as a temporary member to use `/reflections` in without setting up your own server.
+   I have a demo Discord server that [you may join](https://discord.gg/scExqC4yzB) as a temporary member to use `/reflections` in without setting up your own server.
 
-## Testing
+![Example Daily Reflection from the bot inside Discord](assets/example-reflection.png)
+
+### Deploy through Netlify (optional)
+
+If you want to deploy a live version of the project, follow Netlify's guide for [deploying a project from GitHub](https://docs.netlify.com/welcome/add-new-site/#import-from-an-existing-repository).
+
+Get the site URL from your project settings after deployment.
+
+      1. NETLIFY_APP_URL = ''
+
+## Testing Locally
 
 The project includes a suite of unit tests located in the `/tests` directory. These tests cover various aspects of the application, including database operations and Discord interactions. To run a test file, use the following command:
 
@@ -130,3 +137,9 @@ pnpm ts PATH/FILENAME.ts
 ```
 
 To do integration testing, run the dev server `pnpm dev` and then activate the API function with `pnpm netlify functions:invoke reflection` as described above.
+
+### See Output in Discord
+
+I have a demo Discord server that [you may join](https://discord.gg/scExqC4yzB) as a temporary member to use `/reflections` in without setting up your own server.
+
+This is the server that receives the output from the [`DISCORD_WEBHOOK_URL_1` above](#discord-server). You must create your own webhook and save it as `DISCORD_WEBHOOK_URL_2` to output to your server.
