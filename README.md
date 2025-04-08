@@ -56,16 +56,9 @@ The bot will output to the list of `DISCORD_WEBHOOK_URL_1`, `DISCORD_WEBHOOK_URL
 
 #### Supabase
 
-Create your own Supabase project and [obtain the PostgREST API URL and Keys](https://supabase.com/docs/guides/api#api-url-and-keys).
+Here is the [Supabase PostgREST API URL](https://supabase.com/docs/guides/api) for read access to the project.
 
-    1. SUPABASE_URL = ''
-    2. SUPABASE_SERVICE_ROLE_KEY = ''
-
-#### Netlify
-
-Follow Netlify's guide for [deploying a project from GitHub](https://docs.netlify.com/welcome/add-new-site/#import-from-an-existing-repository). Get the site URL from your project settings after deployment.
-
-      1. NETLIFY_APP_URL = ''
+    1. SUPABASE_URL = 'https://hqkqajujwqdmzebklwqo.supabase.co'
 
 ### Running the Repository
 
@@ -90,10 +83,8 @@ To run this project locally, follow these steps:
    1. DISCORD_BOT_TOKEN = ''
    2. DISCORD_PUBLIC_KEY = ''
    3. DISCORD_CLIENT_ID = ''
-   4. SUPABASE_URL = ''
-   5. SUPABASE_SERVICE_ROLE_KEY = ''
-   6. NETLIFY_APP_URL = ''
-   7. DISCORD_WEBHOOK_URL_1 = ''
+   4. DISCORD_WEBHOOK_URL_1 = ''
+   5. SUPABASE_URL = 'https://hqkqajujwqdmzebklwqo.supabase.co'
 
    Follow the [steps above](#secrets-setup) if you do not yet have values for all the secrets.
 
@@ -119,7 +110,17 @@ To run this project locally, follow these steps:
 
    b. **Invoked mode:** In the Discord server with the bot, use the command `/reflections` to fetch and post today's AA Daily Reflection.
 
-   I have deployed a demo server that [you may join](https://discord.gg/scExqC4yzB) as a temporary member to use `/reflections` in without setting up your own server.
+   I have a demo Discord server that [you may join](https://discord.gg/scExqC4yzB) as a temporary member to use `/reflections` in without setting up your own server.
+
+![Example Daily Reflection from the bot inside Discord](assets/example-reflection.png)
+
+### Deploy through Netlify (optional)
+
+If you want to deploy a live version of the project, follow Netlify's guide for [deploying a project from GitHub](https://docs.netlify.com/welcome/add-new-site/#import-from-an-existing-repository).
+
+Get the site URL from your project settings after deployment.
+
+      1. NETLIFY_APP_URL = ''
 
 ## Testing
 

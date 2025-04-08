@@ -8,24 +8,7 @@ import { wrapErrorWithContext, ErrorType } from '../utils/errors.ts';
  * @returns The response from the request
  */
 export const handler = async (event: any) => {
-  const delayMaxSec = 8; // maximum delay in seconds
-  const delayMs = Math.random() * delayMaxSec * 1000; // random delay up to delayMaxMin in ms
-  await delay(delayMs);
-
-  console.log(
-    'Daily reflection scheduled post ran at: ',
-    new Date().toISOString()
-  );
-
-  // Verify it's an authorized request
-  const authHeader =
-    event.headers['authorization'] || event.headers['Authorization'];
-
-  if (authHeader) {
-    console.warn('debug request at: ', new Date().toISOString());
-  }
-  await isCron(event);
-
+  await isCron(event); // log scheduled reflection
   try {
     // Get the formatted reflection embed
     const formattedReflection = await getFormattedReflectionFromDb();
@@ -75,15 +58,6 @@ const isCron = async (event: any) => {
       return true;
     }
     return false;
-  } catch (error) {
-    throw wrapErrorWithContext(error, ErrorType.INTERNAL);
-  }
-};
-
-const delay = async (ms: number) => {
-  try {
-    console.log(`delaying ${ms} ms`);
-    return new Promise((resolve) => setTimeout(resolve, ms));
   } catch (error) {
     throw wrapErrorWithContext(error, ErrorType.INTERNAL);
   }
