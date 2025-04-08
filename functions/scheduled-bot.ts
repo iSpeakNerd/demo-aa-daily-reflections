@@ -1,4 +1,4 @@
-import { getFormattedReflection } from '../utils/discord-reflections.ts';
+import { getFormattedReflectionFromDb } from '../utils/discord-reflections.ts';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -36,7 +36,7 @@ export const handler = async (event: any) => {
 
   try {
     // Get the formatted reflection
-    const formattedReflection = await getFormattedReflection();
+    const formattedReflection = await getFormattedReflectionFromDb();
 
     // Return success response with the reflection
     return {

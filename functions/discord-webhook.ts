@@ -1,5 +1,5 @@
 import { verifyKey } from 'discord-interactions';
-import { getFormattedReflection } from '../utils/discord-reflections.ts';
+import { getFormattedReflectionFromDb } from '../utils/discord-reflections.ts';
 import {
   type DiscordEmbed,
   type DiscordCommand,
@@ -49,14 +49,14 @@ const handler = async (event: any) => {
     event.body, // Ensure this is the raw body
     signature,
     timestamp,
-    process.env.DISCORD_PUBLIC_KEY!,
+    process.env.DISCORD_PUBLIC_KEY!
   );
 
   if (!isValidRequest) {
     console.log('Invalid request signature');
     const wrapped = wrapErrorWithContext(
       new Error('Invalid request signature'),
-      ErrorType.AUTHENTICATION,
+      ErrorType.AUTHENTICATION
     );
     console.error('Error in handler:', wrapped.context);
 
@@ -119,7 +119,7 @@ async function sendResponse(
   id: string,
   token: string,
   body: ResponseBody,
-  isInitialResponse: boolean = false,
+  isInitialResponse: boolean = false
 ): Promise<void> {
   let url = '';
   if (isInitialResponse) {
@@ -138,9 +138,9 @@ async function sendResponse(
       const responseText = await response.text();
       throw wrapErrorWithContext(
         new Error(
-          `Failed to send response: ${response.status} ${responseText}`,
+          `Failed to send response: ${response.status} ${responseText}`
         ),
-        ErrorType.EXTERNAL_SERVICE,
+        ErrorType.EXTERNAL_SERVICE
       );
     }
     console.log('Response sent successfully');
@@ -150,14 +150,14 @@ async function sendResponse(
 }
 async function processCommand(
   name: string,
-  _startTime: number,
+  _startTime: number
 ): Promise<FollowUpResponseBody> {
   const commandNames = commands.map((command: DiscordCommand) => command.name);
 
   if (!commandNames.includes(name)) {
     const wrapped = wrapErrorWithContext(
       new Error('Command not registered.'),
-      ErrorType.VALIDATION,
+      ErrorType.VALIDATION
     );
     console.error('Error in processCommand:', wrapped.context);
     return { content: 'Command not registered.' };
@@ -172,13 +172,13 @@ async function processCommand(
 
     case 'reflections':
       try {
-        const formattedReflection = await getFormattedReflection();
+        const formattedReflection = await getFormattedReflectionFromDb();
         if (formattedReflection) {
           return { embeds: [formattedReflection] };
         } else {
           throw wrapErrorWithContext(
             new Error('Failed to fetch daily reflection.'),
-            ErrorType.INTERNAL,
+            ErrorType.INTERNAL
           );
         }
       } catch (error) {
@@ -242,9 +242,9 @@ async function postToDiscordWebhooks(embed: DiscordEmbed) {
             const errorText = await response.text();
             throw wrapErrorWithContext(
               new Error(
-                `Discord webhook failed: ${response.status} ${errorText}`,
+                `Discord webhook failed: ${response.status} ${errorText}`
               ),
-              ErrorType.EXTERNAL_SERVICE,
+              ErrorType.EXTERNAL_SERVICE
             );
           }
 
@@ -256,7 +256,7 @@ async function postToDiscordWebhooks(embed: DiscordEmbed) {
         } catch (error) {
           const wrapped = wrapErrorWithContext(
             new Error(String(error)),
-            ErrorType.EXTERNAL_SERVICE,
+            ErrorType.EXTERNAL_SERVICE
           );
           console.error();
 
@@ -266,7 +266,7 @@ async function postToDiscordWebhooks(embed: DiscordEmbed) {
             error: wrapped.context,
           };
         }
-      }),
+      })
     );
 
     // Log results
@@ -275,7 +275,7 @@ async function postToDiscordWebhooks(embed: DiscordEmbed) {
         console.log(`Successfully posted to webhook ${result.webhookIndex}`);
       } else {
         console.error(
-          `Failed to post to webhook ${result.webhookIndex}: ${result.error}`,
+          `Failed to post to webhook ${result.webhookIndex}: ${result.error}`
         );
       }
     });
