@@ -16,7 +16,7 @@ AA Daily Reflections is a serverless application built using Netlify Functions, 
 |
 ├── .netlify/                      # Netlify configuration and build artifacts
 ├── functions/                     # Netlify serverless functions directory
-│ ├── scheduled-reflection.ts      # Handles daily reflection scheduling and distribution
+│ ├── reflection.ts                # Handles daily reflection distribution on Cron schedule
 │ ├── discord-webhook.ts           # Processes Discord webhook events and interactions
 │ ├── scheduled-ping.js            # Keeps application alive with periodic pings
 │ └── scheduled-bot.ts             # Manages scheduled Discord bot tasks
@@ -24,7 +24,7 @@ AA Daily Reflections is a serverless application built using Netlify Functions, 
 ├── utils/                         # Shared utility functions and helpers
 │ ├── errors.ts                    # Centralized error handling and custom error types
 │ ├── supabase.ts                  # Supabase client config and database operations
-│ ├── get-all.ts                   # Data fetching utilities and operations from daily reflections api
+│ ├── external-reflections.ts      # Data fetching utilities and operations from external api
 │ ├── discord-reflections.ts       # Discord-specific reflection formatting and handling
 │ ├── strings.ts                   # String constants and text utilities
 │ └── deploy-commands.js           # Script for deploying Discord slash commands
@@ -52,9 +52,9 @@ AA Daily Reflections is a serverless application built using Netlify Functions, 
 
 #### 2.1 Serverless Functions (`/functions`)
 
-- **scheduled-reflection.ts**: Handles scheduled reflection distribution with random delay up to 20 min
-- **discord-webhook.ts**: Manages Discord webhook interactions
-- **scheduled-ping.js**: Implements ping functionality (likely for uptime)
+- **reflection.ts**: Handles scheduled reflection distribution with random delay up to 8 seconds
+- **discord-webhook.ts**: Manages Discord webhook interactions (user interactions)
+- **scheduled-ping.js**: Implements ping functionality
 - **scheduled-bot.ts**: Bot-related scheduled tasks
 
 #### 2.2 Utility Layer (`/utils`)
@@ -62,7 +62,7 @@ AA Daily Reflections is a serverless application built using Netlify Functions, 
 - **supabase.ts**: Database client and operations
 - **db.types.ts**: Generated TypeScript types for database schema
 - **errors.ts**: Error handling and management
-- **get-all.ts**: Data retrieval utilities
+- **external-reflections.ts**: Data retrieval utilities
 - **discord-reflections.ts**: Discord-specific reflection handling
 - **strings.ts**: String constants and utilities
 - **deploy-commands.js**: Discord command deployment
@@ -155,43 +155,43 @@ AA Daily Reflections is a serverless application built using Netlify Functions, 
 
 ### Testing Strategy
 
-#### 1. End-to-End Testing with Netlify Functions
+#### Tests Organization
 
-- **Overview**: The application utilizes Netlify Functions to perform end-to-end tests, ensuring that the entire flow of fetching and posting daily reflections works as expected. This approach allows for testing the integration of various components in a serverless environment.
-
-#### 2. Test Script Organization
-
-- **Test Scripts Location**: Test scripts are stored in the `/tests` directory. To facilitate testing with Netlify functions, relevant test files should be moved to the `/functions` directory. This allows them to be invoked as serverless functions during local and remote testing.
+- **Test Scripts Location**: Test scripts are stored in the
+  `/tests` directory. To facilitate testing with Netlify
+  functions, application end-to-end test files should be moved to the `/
+functions` directory. This allows them to be invoked as
+  serverless functions during local and remote testing.
 - **Example Test Files**:
-  - `test-reflection.ts`: A test function that fetches a daily reflection for a given date and posts it to Discord, simulating the behavior of the `scheduled-reflection` function.
-  - Other test files (e.g., `bb-url.test.ts`, `discord-bot.test.ts`, etc.) contain unit tests for specific utility functions and components.
+  - `test-reflection.ts`: A test function that fetches a
+    daily reflection for a given date and posts it to
+    Discord, simulating the behavior of the
+    `scheduled-reflection` function.
 
-#### 3. Testing Approach
+#### Unit Tests
 
-- **Invocation**: Tests can be invoked using the Netlify CLI, allowing for execution of serverless functions in a local or deployed environment. This simulates real-world usage and ensures that all components interact correctly.
-- **Error Handling**: Each test function includes error handling to capture and log any issues that arise during execution, providing insights into failures and facilitating debugging.
+Other test files (e.g., `bb-url.test.ts`, `discord-bot.
+  test.ts`, etc.) contain unit tests for specific utility
+functions and components.
 
-#### 4. Benefits of Using Netlify Functions for Testing
+#### End-to-End Testing with Netlify Functions
 
-- **Realistic Environment**: Testing within the Netlify Functions framework provides a realistic environment that closely mirrors production, ensuring that any issues related to serverless execution are identified early.
-- **Integration Testing**: This approach allows for integration testing of multiple components, such as fetching data from external APIs and posting to Discord, ensuring that the entire workflow functions as intended.
+- **Overview**: The application utilizes Netlify Functions
+  to perform end-to-end tests, ensuring that the entire flow
+  of fetching and posting daily reflections works as
+  expected. This approach allows for testing the integration
+  of various components in a serverless environment.
 
-### Recent Changes
+#### Testing Approach
 
-#### 1. Updated `fetchDailyReflection` Function
-
-- **Modification**: The `fetchDailyReflection` function in `utils/discord-reflections.ts` has been updated to accept an optional `date` parameter of type `string`. If a date is provided, it constructs the URL using the new helper function `getUrlForDate`.
-- **Reasoning**: This change enhances the flexibility of the function, allowing it to fetch reflections for specific dates while maintaining type safety.
-
-#### 2. New Helper Function `getUrlForDate`
-
-- **Addition**: A new helper function `getUrlForDate` has been introduced in `utils/discord-reflections.ts`. This function accepts a parameter of type `string | Date` and constructs the URL for the reflection based on the provided date.
-- **Reasoning**: This refactor improves code modularity by separating the URL construction logic from the main fetching logic, ensuring that both `Date` objects and date strings can be handled appropriately without internal conversion.
-
-#### 3. Error Handling for Date Formats
-
-- **Modification**: The `getUrlForDate` function now includes error handling for date inputs, ensuring that only valid dates are processed.
-- **Reasoning**: This enhances the robustness of the application by preventing potential runtime errors due to misformatted dates.
+- **Invocation**: Tests can be invoked using the Netlify
+  CLI, allowing for execution of serverless functions in a
+  local or deployed environment. This simulates real-world
+  usage and ensures that all components interact correctly.
+- **Error Handling**: Each test function includes error
+  handling to capture and log any issues that arise during
+  execution, providing insights into failures and
+  facilitating debugging.
 
 ## Code Conventions
 
@@ -221,4 +221,4 @@ AA Daily Reflections is a serverless application built using Netlify Functions, 
 - Local development via `pnpm dev` script
 - TypeScript compilation
 - Automated type generation for Supabase
-- Prettier for code **formatting**
+- Prettier for code formatting

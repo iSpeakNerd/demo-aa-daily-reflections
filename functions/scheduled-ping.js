@@ -9,12 +9,12 @@ export const handler = async (event, context) => {
 
   try {
     const response = await fetch(
-      `${process.env.APP_URL}/.netlify/functions/scheduled-bot`,
+      `${process.env.NETLIFY_APP_URL}/.netlify/functions/scheduled-bot`,
       {
         headers: {
           Authorization: `Bearer ${process.env.SCHEDULED_BOT_TOKEN}`,
         },
-      },
+      }
     );
 
     if (!response.ok) {

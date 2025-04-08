@@ -1,4 +1,4 @@
-import { getFormattedReflection } from '../utils/discord-reflections.ts';
+import { getFormattedReflectionFromDb } from '../utils/discord-reflections.ts';
 import { postToDiscordWebhooks } from './discord-webhook.ts';
 import { wrapErrorWithContext, ErrorType } from '../utils/errors.ts';
 
@@ -28,7 +28,7 @@ export const handler = async (event: any) => {
 
   try {
     // Get the formatted reflection embed
-    const formattedReflection = await getFormattedReflection();
+    const formattedReflection = await getFormattedReflectionFromDb();
 
     // Post to Discord using webhook
     const results = await postToDiscordWebhooks(formattedReflection);
