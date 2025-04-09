@@ -1,26 +1,59 @@
 # AA Daily Reflections discord bot
 
-The **AA Daily Reflections** project is a serverless application designed to post daily reflections from Alcoholics Anonymous (AA) into Discord. This bot operates in two modes: **invoked** and **scheduled**. In invoked mode, users can trigger the bot using the `/reflections` command in Discord, while in scheduled mode, the bot automatically posts reflections at specified intervals using a Cron job on Netlify.
+The **AA Daily Reflections** project is a serverless application designed to post daily reflections from Alcoholics Anonymous (AA) into Discord. This bot operates in two modes: **invoked** and **scheduled**. In invoked mode, users can trigger the bot using the `/reflections` command in Discord, while in scheduled mode, the bot automatically posts reflections at specified intervals using Cron jobs on Netlify.
+
+## Who is This Document For?
+
+This document is designed for:
+
+1. Developers who are:
+
+   - Familiar with web development in TypeScript and Next.js.
+   - Experienced with cloud deployment platform Netlify.
+   - Interested in building Discord app integrations.
+
+2. Recruiters looking to evaluate:
+
+   - Technical skills and abilities of a backend developer.
+
+### Technical Prerequisites
+
+Ensure you have:
+
+- Familiarity with TypeScript.
+- Working knowledge of creating and managing Discord bots and bot interactions.
+- Experience deploying serverless applications using Netlify and AWS Lambda.
+- Familiarity with PostgreSQL and using Supabase for database operations.
+- Experience with continuous integration and deployment process through GitHub.
+
+### Key Terms
+
+- **Serverless Architecture**: A cloud computing execution model where the cloud provider dynamically allocates machine resources.
+- **Netlify Functions**: A feature of Netlify that allows developers to run server-side code without managing a server.
+- **Supabase**: An open-source Firebase alternative that provides a PostgreSQL database with a RESTful API.
+- **Discord**: A chat and community building platform.
+- **Discord embeds**: A single message in Discord that allows structured integration of links, images, videos, and other content. Learn more about [Discord Embeds](https://discord.com/safety/using-webhooks-and-embeds#title-4).
+- **Discord Webhooks**: RESTful API URLs for one-way event triggers (e.g. sending messages in Discord, user logged-in, etc). Learn more [about webhooks](https://discord.com/developers/docs/events/webhook-events).
 
 ## Key Features
 
 - **Discord Integration**: The bot interacts with users through Discord, fetching and displaying the AA Daily Reflections.
-- **Serverless Architecture**: Uses Netlify Functions as an API for lower-level functions. Scales as needed and integrates with CI/CD pipeline through GitHub.
+- **Serverless Architecture**: Uses [Netlify Functions](https://docs.netlify.com/functions/overview/) as an API for lower-level functions. Scales as needed and integrates with CI/CD pipeline through GitHub.
 - **Database Management**: Utilizes Supabase (PostgreSQL) for storing reflections, ensuring type-safe database operations with auto-generated TypeScript types served through a PostgREST API.
 - **Modular Design**: The codebase is organized into distinct modules, promoting maintainability and ease of debugging.
 
 ## Technology Stack
 
-- **Discord.js**: For creating and managing Discord bot interactions and embeds.
-- **Netlify**: For continuous integration and deployment, as well as scheduling tasks via Cron.
-- **Supabase**: For database storage and management, providing a PostgreSQL backend with real-time capabilities.
-- **TypeScript**: Ensures type safety and enhances code reliability throughout the application.
+- **[Discord.js](https://discord.js.org/)**: For creating and managing Discord bot interactions and embeds.
+- **[Netlify](https://www.netlify.com/)**: For continuous integration and deployment, event-driven function activation, as well as scheduling tasks via Cron.
+- **[Supabase](https://supabase.com/)**: For database storage and management, providing a PostgreSQL backend with real-time capabilities.
+- **[TypeScript](https://www.typescriptlang.org/)**: Ensures type safety and enhances code reliability throughout the application.
 
 ## Architectural Decisions
 
-1. **Serverless Architecture**: The decision to use Netlify Functions allows for reduced operational complexity and cost-effective scaling. This architecture integrates seamlessly with version control and supports automatic deployments through a CI/CD pipeline on GitHub.
+1. **Serverless Architecture**: Deployment on Netlify gives access to [AWS lambda functions](https://docs.aws.amazon.com/lambda/latest/dg/concepts-basics.html#gettingstarted-concepts-function) for event-driven code execution but version controlled and bundled with the rest of the application on GitHub. This app architecture pairs well with nonpersistent connections across microservices, e.g. webhook-driven Discord interactions for the AA Daily Reflections bot.
 
-2. **Supabase as Database**: Supabase was chosen for its PostgreSQL compatibility and built-in authentication features. The use of generated types ensures type-safe database operations.
+2. **Supabase as Database**: Supabase was chosen for its PostgreSQL compatibility and PostgREST API for developer usability. The use of generated types in TypeScript ensures type-safe database operations.
 
 3. **TypeScript Implementation**: Full adoption of TypeScript enhances code reliability, improves maintainability, and provides static type checking, which is crucial for catching errors early in the development process.
 
@@ -124,7 +157,7 @@ To run this project locally, follow these steps:
 
 If you want to deploy a live version of the project, follow Netlify's guide for [deploying a project from GitHub](https://docs.netlify.com/welcome/add-new-site/#import-from-an-existing-repository).
 
-Get the site URL from your project settings after deployment.
+Get the site URL from your project settings after deployment and add it to your `.env` secrets.
 
       1. NETLIFY_APP_URL = ''
 
@@ -136,10 +169,10 @@ The project includes a suite of unit tests located in the `/tests` directory. Th
 pnpm ts PATH/FILENAME.ts
 ```
 
-To do integration testing, run the dev server `pnpm dev` and then activate the API function with `pnpm netlify functions:invoke reflection` as described above.
+To do integration testing, run the dev server `pnpm dev` and then activate the API function by using the command `pnpm netlify functions:invoke reflection`.
 
 ### See Output in Discord
 
 I have a demo Discord server that [you may join](https://discord.gg/scExqC4yzB) as a temporary member to use `/reflections` in without setting up your own server.
 
-This is the server that receives the output from the [`DISCORD_WEBHOOK_URL_1` above](#discord-server). You must create your own webhook and save it as `DISCORD_WEBHOOK_URL_2` to output to your server.
+This is the server that receives the output from the [`DISCORD_WEBHOOK_URL_1` above](#discord-server). You must [create your own webhook](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks) and save it as `DISCORD_WEBHOOK_URL_2` to output to your server.
