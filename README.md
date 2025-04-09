@@ -2,6 +2,12 @@
 
 The **AA Daily Reflections** project is a serverless application designed to post daily reflections from Alcoholics Anonymous (AA) into Discord. This bot operates in two modes: **invoked** and **scheduled**. In invoked mode, users can trigger the bot using the `/reflections` command in Discord, while in scheduled mode, the bot automatically posts reflections at specified intervals using a Cron job on Netlify.
 
+<!-- TODO:
+1. explain netlify as AWS lambda for nonpersistent activation
+2. Front load deployment location
+3. Address audience explicitly -- whois
+-->
+
 ## Key Features
 
 - **Discord Integration**: The bot interacts with users through Discord, fetching and displaying the AA Daily Reflections.
