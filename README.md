@@ -46,6 +46,7 @@ Ensure you have:
 
 ## Technology Stack
 
+- **[Node.js](https://nodejs.org)**: JavaScript runtime.
 - **[Discord.js](https://discord.js.org/)**: For creating and managing Discord bot interactions and embeds.
 - **[Netlify](https://www.netlify.com/)**: For continuous integration and deployment, event-driven [function activation](https://docs.netlify.com/functions/get-started/?fn-language=ts#synchronous-function), as well as scheduling tasks [via Cron](https://docs.netlify.com/functions/scheduled-functions/).
 - **[Supabase](https://supabase.com/)**: For database storage and management, providing a PostgreSQL backend with real-time capabilities accessible through a REST API.
@@ -65,7 +66,7 @@ Ensure you have:
 
 ## Getting Started
 
-This project runs in Node.js and uses [`pnpm`](https://pnpm.io/) as its package manager. You are welcome to use npm or yarn if you prefer. (or Bun or ...) Install the [LTS version of Node](https://nodejs.org/) if you do not have it.
+This project runs in Node.js and uses [`pnpm`](https://pnpm.io/) as its package manager. You are welcome to use npm or yarn if you prefer. (or Bun or ...) Install the [LTS version of Node](https://nodejs.org/en/download) if you do not have it.
 
 WARNING: commands referencing `pnpm` can be substituted with `npm` (e.g. `pnpm install` becomes `npm install`) but yarn or other package managers will require different commands to activate scripts.
 
