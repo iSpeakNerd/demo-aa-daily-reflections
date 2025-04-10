@@ -156,11 +156,15 @@ To run this project locally, follow these steps:
    npm netlify dev
    ```
 
-5. **Invite the bot to a Server**
+5. **Create your Discord Bot**
 
-   Use the [bot invite link](https://discordjs.guide/preparations/adding-your-bot-to-servers.html#creating-and-using-your-invite-link) to add the bot to a Discord server.
+   Follow [these directions to create your own Discord bot](https://discordjs.guide/preparations/setting-up-a-bot-application.html#creating-your-bot) to handle user interactions in **invoked mode**.
 
-6. **Activate the Bot**: Either of these will output the Daily Reflections to your Discord server.
+6. **Invite the bot to a Server**
+
+   Use your [bot invite link](https://discordjs.guide/preparations/adding-your-bot-to-servers.html#creating-and-using-your-invite-link) to add the bot to your Discord server.
+
+7. **Activate the Bot**: Either of these will output the Daily Reflections to your Discord server.
 
    a. **Scheduled mode:** While the dev server is live, [Netlify Functions provide simulated scheduled activation](https://docs.netlify.com/cli/manage-functions/#invoke-functions-while-running-netlify-dev) by using the command:
 
@@ -171,6 +175,8 @@ To run this project locally, follow these steps:
    ```
 
    b. **Invoked mode:** In the Discord server with the bot, use the command `/reflections` to fetch and post today's AA Daily Reflection.
+
+   =========================
 
    I have a demo Discord server that [you may join](https://discord.gg/scExqC4yzB) as a temporary member to use `/reflections` in without setting up your own server.
 
