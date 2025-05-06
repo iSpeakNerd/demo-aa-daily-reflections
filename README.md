@@ -205,3 +205,8 @@ To do integration testing, run the dev server `pnpm netlify dev` and then activa
 I have a demo Discord server that [you may join](https://discord.gg/scExqC4yzB) as a temporary member to use `/reflections` in without setting up your own server.
 
 This is the server that receives the output from the [`DISCORD_WEBHOOK_URL_1` above](#discord-server). You must [create your own webhook](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks) and save it as `DISCORD_WEBHOOK_URL_2` in your `.env` to output to your server.
+
+---
+---
+
+_Thank you to [@patrickmabbott](https://github.com/patrickmabbott) and [@mmalvarez](https://github.com/mmalvarez) for help and feedback on this document._
