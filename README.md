@@ -84,7 +84,8 @@ Create a `.env` file in the root directory. You will save credentials from each 
 
 ##### Discord Bot
 
-Here's a guide to [creating a Discord bot](https://discordjs.guide/preparations/setting-up-a-bot-application.html#creating-your-bot). Save your secrets as part of your setup.
+<!-- TODO add info on creating the bot, registering commands -->
+Follow the directions from discord.js for [creating a Discord bot](https://discordjs.guide/legacy). Save your secrets as part of your setup.
 
       1. DISCORD_BOT_TOKEN = ''
       2. DISCORD_PUBLIC_KEY = ''
